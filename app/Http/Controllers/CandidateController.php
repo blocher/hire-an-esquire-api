@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Validator;
+use App\Rules\CandidateStatusRule;
 
 class CandidateController extends Controller
 {
@@ -81,6 +82,7 @@ class CandidateController extends Controller
                 'date_applied' => 'required|date',
                 'description' => 'max:2000',
                 'reviewed' => 'boolean',
+                'status' => new CandidateStatusRule($request, $candidate)
             ]
         );  
 
