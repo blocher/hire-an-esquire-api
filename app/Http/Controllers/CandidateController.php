@@ -74,7 +74,7 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
-        $validator = Validator::make($request->all(), 
+        $validator = Validator::make(array_merge($candidate->getAttributes(), $request->all()), 
             [
                 'name' => 'required|max:255',
                 'years_exp' => 'required|numeric|lte:50',
