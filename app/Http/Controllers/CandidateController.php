@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Candidate;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
@@ -14,17 +14,18 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $collection = \App\Models\Candidate::where('id','>',0);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if (request()->has('reviewed')) {
+            $reviewed = request()->get('reviewed') == 'false' || request()->get('reviewed') == false ? false : true;
+            $collection->where('reviewed',$reviewed);
+        }
+
+        $sort = request()->has('sort') && request()->get('sort')=='status' ? 'status' : 'date_applied';
+        $order = request()->has('order') && request()->get('order')=='desc' ? 'DESC' : 'ASC';
+        $collection->orderBy($sort, $order);
+        
+        return new \App\Http\Resources\CandidatesCollection($collection->get());
     }
 
     /**
@@ -35,7 +36,14 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'years_experience' => 'required|numeric|<=50',
+            'date_applied' => 'required|date',
+            'description' => 'max:2000',
+            'reviewed' => 'boolean',
+        ]);
+        \App\Models\Candidate::create($request->all());
     }
 
     /**
@@ -46,18 +54,7 @@ class CandidateController extends Controller
      */
     public function show(Candidate $candidate)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Candidate  $candidate
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Candidate $candidate)
-    {
-        //
+        return new \App\Http\Resources\Candidate($candidate);
     }
 
     /**
@@ -69,7 +66,8 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
-        //
+         $candidate->update($request->all());
+         return new \App\Http\Resources\Candidate($candidate);
     }
 
     /**
@@ -80,6 +78,8 @@ class CandidateController extends Controller
      */
     public function destroy(Candidate $candidate)
     {
-        //
+        $candidate->delete();
+
+        return response()->json(['message' => 'Deleted'], 204);
     }
 }
