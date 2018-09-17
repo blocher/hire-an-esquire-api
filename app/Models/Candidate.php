@@ -15,12 +15,11 @@ class Candidate extends Model
 
         self::saving(function($model){
             $original = $model->getOriginal();
-		    if ($original['status'] == 'pending') && $model->stats!='pending' ) {
+		    if ($original['status'] == 'pending' && $model->status!='pending' ) {
 		        $model->reviewed = true;
 		    }
         });
 
     }
-
 
 }
