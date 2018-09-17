@@ -20,7 +20,7 @@ class CreateCandidatesTable extends Migration
             $table->integer('years_exp');
             $table->dateTime('date_applied');
             $table->boolean('reviewed')->default(false);
-            $table->mediumText('description');
+            $table->mediumText('description')->nullable();
             $table->timestamps();
 
             $table->index('status');

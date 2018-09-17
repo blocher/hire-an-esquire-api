@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use Illuminate\Http\Request;
+use Validator;
 
 class CandidateController extends Controller
 {
@@ -36,14 +37,21 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'years_experience' => 'required|numeric|<=50',
-            'date_applied' => 'required|date',
-            'description' => 'max:2000',
-            'reviewed' => 'boolean',
-        ]);
-        \App\Models\Candidate::create($request->all());
+        $validator = Validator::make($request->all(), 
+            [
+                'name' => 'required|max:255',
+                'years_exp' => 'required|numeric|lte:50',
+                'date_applied' => 'required|date',
+                'description' => 'max:2000',
+                'reviewed' => 'boolean',
+            ]
+        );  
+
+        if ($validator->fails())
+        {
+           return response()->json(['message' => 'ERROR', 'errors' => $validator->messages()->all()], 404);
+        }
+        return new \App\Http\Resources\Candidate(\App\Models\Candidate::create($request->all()));
     }
 
     /**
@@ -66,6 +74,20 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
+        $validator = Validator::make($request->all(), 
+            [
+                'name' => 'required|max:255',
+                'years_exp' => 'required|numeric|lte:50',
+                'date_applied' => 'required|date',
+                'description' => 'max:2000',
+                'reviewed' => 'boolean',
+            ]
+        );  
+
+        if ($validator->fails())
+        {
+           return response()->json(['message' => 'ERROR', 'errors' => $validator->messages()->all()], 404);
+        }
          $candidate->update($request->all());
          return new \App\Http\Resources\Candidate($candidate);
     }
