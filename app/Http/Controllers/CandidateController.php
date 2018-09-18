@@ -31,7 +31,7 @@ class CandidateController extends Controller
         $order = request()->has('order') && request()->get('order')=='desc' ? 'DESC' : 'ASC';
         $collection->orderBy($sort, $order);
         
-        return new CandidatesCollection($collection->get());
+        return ApiResponses::respondCollectionRetrieved(new CandidatesCollection($collection->paginate(2)));
     }
 
     /**

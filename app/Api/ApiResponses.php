@@ -15,9 +15,10 @@ class ApiResponses {
 	public static function respondCollectionRetrieved(JsonResource $resource) {
 
 		return $resource->additional([
-				'meta' => [
-                    'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' listing has been retreived.',
+				'status' => [
+                    'message' => (new \ReflectionClass($resource))->getShortName() . ' has been retreived.',
                     'http_status' => Response::HTTP_OK,
+                    'http_status_text' => 'HTTP_OK',
                     'error' => false
                 ]
 			])
@@ -28,9 +29,10 @@ class ApiResponses {
 	public static function respondCreated(JsonResource $resource) {
 
 		return $resource->additional([
-				'meta' => [
+				'status' => [
                     'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been created.',
                     'http_status' => Response::HTTP_CREATED,
+                    'http_status_text' => 'HTTP_CREATED',
                     'error' => false
                 ]
 			])
@@ -41,9 +43,10 @@ class ApiResponses {
 	public static function respondRetrieved(JsonResource $resource) {
 
 		return $resource->additional([
-				'meta' => [
+				'status' => [
                     'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been retreived.',
                     'http_status' => Response::HTTP_OK,
+                    'http_status_text' => 'HTTP_OK',
                     'error' => false
                 ]
 			])
@@ -54,9 +57,10 @@ class ApiResponses {
 	public static function respondUpdated(JsonResource $resource) {
 
 		return $resource->additional([
-				'meta' => [
+				'status' => [
                     'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been updated.',
                     'http_status' => Response::HTTP_OK,
+                    'http_status_text' => 'HTTP_OK',
                     'error' => false
                 ]
 			])
@@ -68,9 +72,10 @@ class ApiResponses {
 
 
 		return $resource->additional([
-				'meta' => [
+				'status' => [
                     'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been deleted.',
                     'http_status' => Response::HTTP_OK,
+                    'http_status_text' => 'HTTP_OK',
                     'error' => false
                 ]
 			])
@@ -83,9 +88,10 @@ class ApiResponses {
 
     	return response()->json(
     		[
-				'meta' => [
+				'status' => [
                     'message' => 'Validation failed',
                     'http_status' => Response::HTTP_BAD_REQUEST,
+                    'http_status_text' => 'HTTP_BAD_REQUEST',
                     'error' => true,
                     'errors' => $errors
                 ]
@@ -96,9 +102,10 @@ class ApiResponses {
     public static function respondNotFound() {
     	return response()->json(
     		[
-				'meta' => [
+				'status' => [
                     'message' => 'The endpoint you requested does not exist.',
                     'http_status' => Response::HTTP_NOT_FOUND,
+                    'http_status_text' => 'HTTP_NOT_FOUND',
                     'error' => true
                 ]
 			])
@@ -108,9 +115,10 @@ class ApiResponses {
     public static function respondModelNotFound() {
     	return response()->json(
     		[
-				'meta' => [
+				'status' => [
                     'message' => 'The record you are attempting to retrieve, edit, or delete does not exist.',
                     'http_status' => Response::HTTP_NOT_FOUND,
+                    'http_status_text' => 'HTTP_NOT_FOUND',
                     'error' => true
                 ]
 			])
@@ -120,9 +128,10 @@ class ApiResponses {
     public static function respondMethodNotAllowed() {
     	return response()->json(
     		[
-				'meta' => [
+				'status' => [
                     'message' => 'The HTTP method is not allowed.  Are you sure you used the correct HTTP verb?',
                     'http_status' => Response::HTTP_METHOD_NOT_ALLOWED,
+                    'http_status_text' => 'HTTP_METHOD_NOT_ALLOWED',
                     'error' => true
                 ]
 			])
@@ -132,9 +141,10 @@ class ApiResponses {
     public static function respondInternalServerError($exception) {
     	return response()->json(
     		[
-				'meta' => [
-                    'message' => 'There was an unkown server error: ' . get_class($exception),
+				'status' => [
+                    'message' => 'There was an unkown server error',
                     'http_status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'http_status_text' => 'http_status',
                     'error' => true
                 ]
 			])
