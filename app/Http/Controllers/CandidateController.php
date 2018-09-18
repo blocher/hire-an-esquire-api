@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Http\Resources\CandidateResource;
+use App\Http\Resources\CandidatesCollection;
 use Illuminate\Http\Request;
 use Validator;
 use App\Rules\CandidateStatusRule;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Api\ApiResponses;
 
 class CandidateController extends Controller
 {
@@ -16,7 +20,7 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        $collection = \App\Models\Candidate::where('id','>',0);
+        $collection = Candidate::where('id','>',0);
 
         if (request()->has('reviewed')) {
             $reviewed = request()->get('reviewed') == 'false' || request()->get('reviewed') == false ? false : true;
@@ -27,7 +31,7 @@ class CandidateController extends Controller
         $order = request()->has('order') && request()->get('order')=='desc' ? 'DESC' : 'ASC';
         $collection->orderBy($sort, $order);
         
-        return new \App\Http\Resources\CandidatesCollection($collection->get());
+        return new CandidatesCollection($collection->get());
     }
 
     /**
@@ -50,9 +54,9 @@ class CandidateController extends Controller
 
         if ($validator->fails())
         {
-           return response()->json(['message' => 'ERROR', 'errors' => $validator->messages()->all()], 404);
+           return ApiResponses::respondValidationFailed($validator->messages()->all());
         }
-        return new \App\Http\Resources\Candidate(\App\Models\Candidate::create($request->all()));
+        return ApiResponses::respondCreated(new CandidateResource(Candidate::create($request->all())));
     }
 
     /**
@@ -63,7 +67,7 @@ class CandidateController extends Controller
      */
     public function show(Candidate $candidate)
     {
-        return new \App\Http\Resources\Candidate($candidate);
+        return ApiResponses::respondRetrieved(new CandidateResource($candidate));
     }
 
     /**
@@ -88,10 +92,11 @@ class CandidateController extends Controller
 
         if ($validator->fails())
         {
-           return response()->json(['message' => 'ERROR', 'errors' => $validator->messages()->all()], 404);
+           return ApiResponses::respondValidationFailed($validator->messages()->all());
         }
-         $candidate->update($request->all());
-         return new \App\Http\Resources\Candidate($candidate);
+
+        $candidate->update($request->all());
+        return ApiResponses::respondUpdated(new CandidateResource($candidate));
     }
 
     /**
@@ -104,6 +109,6 @@ class CandidateController extends Controller
     {
         $candidate->delete();
 
-        return response()->json(['message' => 'Deleted'], 204);
+        return ApiResponses::respondDeleted(new CandidateResource($candidate));
     }
 }
