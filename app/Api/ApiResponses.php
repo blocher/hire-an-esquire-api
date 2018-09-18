@@ -9,6 +9,7 @@ use Exception;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Auth\AuthenticationException;
 
 class ApiResponses {
 	
@@ -138,17 +139,31 @@ class ApiResponses {
         	->setStatusCode(Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    public static function respondInternalServerError($exception) {
+    public static function respondInternalServerError(Exception $exception=null) {
+
     	return response()->json(
     		[
 				'status' => [
-                    'message' => 'There was an unkown server error',
+                    'message' => 'There was an unkown server error' . $exception->getMessage(),
                     'http_status' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                    'http_status_text' => 'http_status',
+                    'http_status_text' => 'HTTP_INTERNAL_SERVER_ERROR',
                     'error' => true
                 ]
 			])
         	->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    public static function respondNotAuthenticated() {
+        return response()->json(
+            [
+                'status' => [
+                    'message' => 'You must supply a valid token to access this resource',
+                    'http_status' => Response::HTTP_FORBIDDEN,
+                    'http_status_text' => 'HTTP_FORBIDDEN',
+                    'error' => true
+                ]
+            ])
+            ->setStatusCode(Response::HTTP_FORBIDDEN);
     }
 
     public static function respondException(Exception $exception) {
@@ -164,6 +179,11 @@ class ApiResponses {
         if ($exception instanceof MethodNotAllowedHttpException) {
           return ApiResponses::respondMethodNotAllowed();
         }
+
+        if ($exception instanceof AuthenticationException) {
+          return ApiResponses::respondNotAuthenticated();
+        }
+
 
         return ApiResponses::respondInternalServerError($exception);
 
