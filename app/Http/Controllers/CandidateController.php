@@ -17,6 +17,8 @@ class CandidateController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
+     * @TODO Move this logic to a Repsitory, or otherwise outside controller
      */
     public function index()
     {
