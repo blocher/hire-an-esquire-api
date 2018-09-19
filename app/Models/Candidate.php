@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Candidate extends Model
 {
     
-	public $guarded = ['id', 'created_at', 'updated_at'];
+	public $guarded = ['id', 'created_at', 'updated_at', 'api_token'];
 
 	public static function boot()
     {
@@ -21,5 +22,6 @@ class Candidate extends Model
         });
 
     }
+
 
 }

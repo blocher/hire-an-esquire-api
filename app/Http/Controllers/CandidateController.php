@@ -83,7 +83,7 @@ class CandidateController extends Controller
             [
                 'name' => 'required|max:255',
                 'years_exp' => 'required|numeric|lte:50',
-                'date_applied' => 'required|date',
+                'date_applied' => 'required|date_format:Y-m-d H:i:s',
                 'description' => 'max:2000',
                 'reviewed' => 'boolean',
                 'status' => new CandidateStatusRule($request, $candidate)
