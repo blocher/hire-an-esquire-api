@@ -1,4 +1,8 @@
-### Hire an Esquire Candidate API (PHP Implemenation)
+### Hire an Esquire Candidate API (PHP Implementation)
+
+## Live site
+
+* The API may be demoed at https://hire-an-esquire.benlocher.com/api/v1/{endpoint}
 
 ## Requirements
 
@@ -17,7 +21,6 @@
 
 ## Installation
 
-
 * Configure webserver to serve form `public` folder
 * Copy `.env.example` to `.env` and customize based on your database settings.  It is currently configured for a standard Homestead installation
 * From the root of the project, run `composer install`
@@ -27,9 +30,9 @@
 ## Endpoints
 
 * List candidates GET `api\v1\candidates`
-	* Optional paramater: `sort` accepts either `status` or `date_applied` | default `date_applied`
-	* Optional paramater: `order` accepts either `ASC` or `DESC` | default `ASC`
-	* Optional paramater: `reviewed` accepts either `1` or `0` | default not present
+	* Optional parameter: `sort` accepts either `status` or `date_applied` | default `date_applied`
+	* Optional parameter: `order` accepts either `ASC` or `DESC` | default `ASC`
+	* Optional parameter: `reviewed` accepts either `1` or `0` | default not present
 	* Pagination: 2 results are returned per page, page links are in `meta.links` of the result
 * Show candidate GET `api\v1\candidates\{id}`
 * Create candidate POST `api\v1\candidates\`
@@ -38,14 +41,14 @@
 
 ## Authentication
 
-* All requests must have a api_token paramater
+* All requests must have a api_token parameter
 * Token generation is not fully implemented, but each user is assigned an `api_token` when users are seeded in database
 * If using database seeds, `1ee567a5-83ae-4309-8f2b-3ad94bcc94dd` is a valid token
 
 
 ## Running Tests
 
-* From project root director run `phpunit`
+* From project root directory run `phpunit` or if that fails `vendor/bin/phpunit`
 
 ## Key Files
 
@@ -59,3 +62,5 @@
 * database\migrations\2018_09_15_191917_create_candidates_table.php
 * database\seeds\UserSeeder.php
 * database\seeds\CandidateSeeder.php
+
+
