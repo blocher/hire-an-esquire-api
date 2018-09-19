@@ -39,8 +39,8 @@
 ## Authentication
 
 * All requests must have a api_token paramater
-* Token generation is not fully implemented, but each user is assigned an api_token when users are seeded in database
-* If using database seeds, `1ee567a5-83ae-4309-8f2b-3ad94bcc94d` is a valid token
+* Token generation is not fully implemented, but each user is assigned an `api_token` when users are seeded in database
+* If using database seeds, `1ee567a5-83ae-4309-8f2b-3ad94bcc94dd` is a valid token
 
 
 ## Running Tests
