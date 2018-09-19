@@ -33,7 +33,7 @@
 	* Optional parameter: `sort` accepts either `status` or `date_applied` | default `date_applied`
 	* Optional parameter: `order` accepts either `ASC` or `DESC` | default `ASC`
 	* Optional parameter: `reviewed` accepts either `1` or `0` | default not present
-	* Pagination: 2 results are returned per page, page links are in `meta.links` of the result
+	* Pagination: 2 results are returned per page, page links are in `links` of the result
 * Show candidate GET `api\v1\candidates\{id}`
 * Create candidate POST `api\v1\candidates\`
 * Update candidate PUT `api\v1\candidates\{id}`
