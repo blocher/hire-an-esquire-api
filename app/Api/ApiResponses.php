@@ -17,7 +17,7 @@ class ApiResponses {
 
 		return $resource->additional([
 				'status' => [
-                    'message' => (new \ReflectionClass($resource))->getShortName() . ' has been retreived.',
+                    'message' => (new \ReflectionClass($resource))->getShortName() . ' has been retrieved.',
                     'http_status' => Response::HTTP_OK,
                     'http_status_text' => 'HTTP_OK',
                     'error' => false
@@ -45,7 +45,7 @@ class ApiResponses {
 
 		return $resource->additional([
 				'status' => [
-                    'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been retreived.',
+                    'message' => (new \ReflectionClass($resource->resource))->getShortName() . ' has been retrieved.',
                     'http_status' => Response::HTTP_OK,
                     'http_status_text' => 'HTTP_OK',
                     'error' => false
