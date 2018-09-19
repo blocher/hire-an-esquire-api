@@ -18,7 +18,7 @@
 ## Installation
 
 
-* Configure webserver to server form `public` folder
+* Configure webserver to serve form `public` folder
 * Copy `.env.example` to `.env` and customize based on your database settings.  It is currently configured for a standard Homestead installation
 * From the root of the project, run `composer install`
 * Run database migrations and seeder from root folder `php artisan migrate --seed`
@@ -27,13 +27,21 @@
 ## Endpoints
 
 * List candidates GET `api\v1\candidates`
-	* Optional paramater: `sort` accepts either `status` or `date_applied` | default `date_app;ied`
+	* Optional paramater: `sort` accepts either `status` or `date_applied` | default `date_applied`
 	* Optional paramater: `order` accepts either `ASC` or `DESC` | default `ASC`
 	* Optional paramater: `reviewed` accepts either `1` or `0` | default not present
+	* Pagination: 2 results are returned per page, page links are in `meta.links` of the result
 * Show candidate GET `api\v1\candidates\{id}`
 * Create candidate POST `api\v1\candidates\`
-* Create candidate PUT `api\v1\candidates\{id}`
+* Update candidate PUT `api\v1\candidates\{id}`
 * Delete candidate DELETE `api\v1\candidates\{id}`
+
+## Authentication
+
+* All requests must have a api_token paramater
+* Token generation is not fully implemented, but each user is assigned an api_token when users are seeded in database
+* If using database seeds, `1ee567a5-83ae-4309-8f2b-3ad94bcc94d` is a valid token
+
 
 ## Running Tests
 
@@ -41,10 +49,13 @@
 
 ## Key Files
 
-* \App\Http\Controllers\CandidateController.php
-* \App\Models\Candidate.php
-* \App\Http\Resources\CandidateResource.php
-* \App\Http\Resources\CandidateCollection.php
-* \App\Http\Rules\CanddateStatusRule.php
+* app\Http\Controllers\CandidateController.php
+* app\Models\Candidate.php
+* app\Http\Resources\CandidateResource.php
+* app\Http\Resources\CandidateCollection.php
+* app\Rules\CanddateStatusRule.php
+* app\Api\ApiResponses.oho
 * tests\Feature\CandidateEndpointTest.php
 * database\migrations\2018_09_15_191917_create_candidates_table.php
+* database\seeds\UserSeeder.php
+* database\seeds\CandidateSeeder.php
